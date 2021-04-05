@@ -1,0 +1,92 @@
+<% layout('plain') %>
+<nav class="navbar navbar-dark bg-dark navtop">
+	<a id="menuCollapseButton" class="btn btn-sm border ms-3 me-3" href="javascript:toggleMenu('show')" title="Menü göster/gizle"><i class="fas fa-bars"></i></a>
+	<a href="/haham#/dashboard/main" class="logo ms-1">
+		<span class="text-secondary bold">Gany<span class="text-primary">Go</span></span>
+	</a>
+
+	<div class="ms-auto me-0 me-md-3 my-2 my-md-0">
+		<div class="input-group">
+			<input class="form-control" type="text" placeholder="ara..." aria-label="Search" aria-describedby="basic-addon2" />
+			<button class="btn border" type="button"><i class="fas fa-search"></i></button>
+		</div>
+	</div>
+	<a id="menuCollapseButton2" class="btn btn-sm border ms-3 me-2" href="javascript:toggleMenu('show')" title="Menü göster/gizle"><i class="fas fa-bars"></i></a>
+	<div class="ms-auto ms-md-0">
+		<ul class="nav">
+			<li class="nav-item dropdown" id="alertsDropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="alertsDropdownBtn" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-bell fa-fw font-size-150"></i>
+					<span id="unread-notification-count" class="badge badge-danger badge-counter"></span>
+				</a>
+				<div class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="alertsDropdownBtn">
+					<h6 class="dropdown-header text-light">
+						Bildirim Merkezi
+					</h6>
+					<div id="last-notifications">
+					</div>
+					<a class="dropdown-item text-center small text-gray-500" href="#/me/notifications">Tüm bildirimleri göster</a>
+				</div>
+			</li>
+
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="databasesDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Veri Ambarları">
+					<i class="fas fa-database font-size-150"></i>
+				</a>
+				<div id="dbList" class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="databasesDropdown">
+					<% if(typeof session!='undefined'){ %>
+					<% if(typeof session.databases!='undefined'){ %>
+					<% session.databases.forEach((e)=>{%>
+					<% if(e._id.toString()== session.dbId.toString()){%>
+					<div class="dropdown-item active"><%- e.dbName %></div>
+					<% }else{ %>
+					<a class="dropdown-item" href="javascript:changedb('<%- `${e._id}` %>')"><%- e.dbName %></a>
+					<% } %>
+					<% }) %>
+					<% } %>
+					<% } %>
+				</div>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Kullanıcı işlemleri">
+					<i class="fas fa-user font-size-150"></i>
+				</a>
+				<div class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="userDropdown">
+					<a class="dropdown-item" href="#/me/profile">Profilim</a>
+					<div class="dropdown-divider border"></div>
+					<a class="dropdown-item" href="javascript:logout();">Çıkış</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<div class="d-flex">
+	<div id="layoutSidenav_nav" class="bg-dark collapse show" style="">
+		<%- partial('side-menu') %>
+	</div>
+	<div id="main-content"  class="p-2">
+		<main id="main-container" class="cerceve1 p-0" style="margin-bottom: -30px;padding-bottom: 80px!important;">
+			<div id="title-panel" class="mt-2 mb-1 px-3" style="height: 36px">
+				<h1 id="pageTitle" class="float-start m-0 page-title text-primary" style="font-size:16pt">...</h1>
+				<div id="headerButtons" class="float-end" style="min-height: 26px;"></div>
+			</div>
+			<!-- <div class="clearfix"></div> -->
+			<div class="container-fluid">
+
+				<%- body %>
+
+			</div>
+
+		</main>
+		<%- partial('footer') %>
+		
+	</div>
+
+</div>
+
+
+<a class="scroll-to-top rounded" href="javascript:scrollToTop()">
+	<i class="fas fa-angle-up"></i>
+</a>
+<%- partial('modals') %>

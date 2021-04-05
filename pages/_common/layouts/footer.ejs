@@ -1,0 +1,18 @@
+<footer class="footer">
+	<div class="d-md-flex">
+		<div class="text-muted ms-2">
+			<a href="javascript:modalFormOptions();" class="btn btn-sm btn-info " title="Form Ayarları"
+			style="font-size: 11px!important; height: 22px; padding: 2px;"><i class="fas fa-cogs"></i> Form Ayarları</a>
+		</div>
+		<div class="flex-fill text-muted mt-1 ms-2 ms-md-3">&copy; <%- (new Date()).getFullYear() %> Gani Teknoloji, Tüm hakları saklıdır.</div>
+
+		<div class="d-md-flex text-primary mt-1 ms-2">
+			<div class="" title="Aktif kullanıcı">
+				<i class="fas fa-user"></i> <%- session.username %>
+			</div>
+			<div id="dbLabel" class="mx-md-3" title="Aktif veri ambarı">
+				<i class="fas fa-database"></i> <%- dbName %>
+			</div>
+		</div>
+	</div>
+</footer>

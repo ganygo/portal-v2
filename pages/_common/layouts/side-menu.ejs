@@ -1,0 +1,24 @@
+<style type="text/css">
+	#sidenavAccordion .nav-link {
+		color:var(--bs-light);
+		width: 100%;
+	}
+	#sidenavAccordion .nav-link .nav.accordion .nav-link{
+		color:var(--bs-light);
+		opacity: 50%!important;
+	}
+
+</style>
+
+
+<nav class="nav nav-pills flex-column text-white bg-dark mb-auto" id="sidenavAccordion" style="width: 240px;height: 100%;min-height: 100vh;">
+	<div id="leftMenu"></div>
+	<hr class="w-100 mt-3" style="border-top: 1px solid #fd7e144d;">
+	<a id="tawkto" class="nav-link" href="javascript:openInNewTab('https://tawk.to/chat/5f4bbf07cc6a6a5947b01c77/default');">
+		<i class="fas fa-medkit"></i> Destek216
+	</a>
+</nav>
+
+<script type="text/javascript">
+	document.getElementById('leftMenu').innerHTML=generateLeftMenu(global.menu)
+</script>

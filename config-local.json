@@ -1,0 +1,24 @@
+{
+	"httpserver":{
+		"port" : 5100
+	},
+	"mongodb": {
+		"address":"mongodb://localhost:27017/portalweb"
+	},
+	"api": {
+		"url" : "http://localhost:3500/api/v1"
+	},
+	"login": {
+		"url" : "http://localhost:5300/login"
+	},
+	"pagination":{
+		"pageSize":10
+	},
+	"ispiyonService":{
+		"url":"http://localhost:3900",
+		"enabled":true
+	},
+	"tmpDir":"C:\\arge\\tr216\\temp",
+	"status":"development",
+	"status111":"release"
+}

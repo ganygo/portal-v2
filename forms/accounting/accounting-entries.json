@@ -1,0 +1,156 @@
+{
+	"index":
+	[
+		{
+			"type":"filter",
+			"fields" :{
+				"year" :{"title":"Yıl", "type":"lookup", "col":2 ,"staticValues":"yearList","value":"${(new Date()).getFullYear()}", "onchange":"yearPeriod_change()"},
+				"period" :{"title":"Dönem", "type":"lookup", "col":2, "staticValues":"monthList","value":"${(new Date()).getMonth()+1}", "onchange":"yearPeriod_change()"},
+				"date1":{"title":"Tarih 1" , "type":"date", "col":2, "value":"${(new Date((new Date()).setDate(1))).yyyymmdd()}"},
+				"date2":{"title":"Tarih 2" , "type":"date", "col":2,"value":"${(new Date()).lastThisMonth().yyyymmdd()}"}
+			},
+			"script":[
+				"function yearPeriod_change(){",
+				"let yil=$('#year').val()",
+				"let period=$('#period').val()",
+				"if(yil!='' && period!=''){",
+				"let tarih1=(new Date(Number(yil),Number(period)-1,1)).yyyymmdd()",
+				"let tarih2=(new Date(Number(yil),Number(period)-1,1)).lastThisMonth().yyyymmdd()",
+				"$('#date1').val(tarih1)",
+				"$('#date2').val(tarih2)",
+				"",
+				"}",
+				"}"
+			]
+		},
+		{
+			"type": "grid",
+			"fields": {
+				"entryNumber" :{"title":"Fiş No", "type":"number"},
+				"documentDate" :{"title":"Belge Tarih", "type":"date", "filter":false},
+				"documentNumber" :{"title":"Belge No", "type":"string"},
+				"totalDebit" :{"title":"T.Borç", "type":"money"},
+				"totalCredit" :{"title":"T.Alacak", "type":"money"},
+				"journalNumber" :{"title":"Yev.No", "type":"number"}
+			},
+			"options": {
+				"selection": true,
+				"filter": true,
+				"buttons": {
+					"add": true,
+					"edit": true,
+					"delete": true,
+					"view": false,
+					"print": true,
+					"copy": true
+				}
+			},
+			"dataSource": {
+				"type":"remote",
+				"method":"GET",
+				"url":"/dbapi/accounting-entries",
+				"deleteUrl":"/dbapi/accounting-entries",
+				"copyUrl":"/dbapi/accounting-entries/copy",
+				"printUrl":"/dbapi/accounting-entries/print"
+			},
+			"panelButtons":{}
+		}
+	],
+	"form": [
+		{
+			"type":"form",
+			"fields" :{
+				"baslik":{
+					"title":"Belge Bilgileri",
+					"fields":{
+						"eIntegrator" :{"title":"Entegratör", "type":"remoteLookup", 
+							"dataSource" :{
+								"type":"remote",
+								"method":"GET",
+								"url":"/dbapi/integrators",
+								"label":"{name}"
+							},
+							"col":"col-sm-6 col-md-3",
+							"lastRecord":true
+						},
+						"entryNumber" :{"title":"Fiş No", "type":"number", "col":2 },
+						"entryComment" :{"title":"Belge Açıklama", "type":"string","col":6},
+						"year" :{"title":"Yıl", "type":"lookup", "col":2 ,"staticValues":"yearList","value":"${(new Date()).getFullYear()}"},
+						"period" :{"title":"Dönem", "type":"lookup", "col":2, "staticValues":"monthList","value":"${(new Date()).getMonth()+1}"},
+						"documentDate" :{"title":"Belge Tarih", "type":"date" , "value":"${(new Date()).yyyymmdd()}","col":3},
+						"documentNumber" :{"title":"Belge No", "type":"string","col":3},
+						"totalDebit" :{"title":"T.Borç", "type":"money","col":3 ,"readonly":true},
+						"totalCredit" :{"title":"T.Alacak", "type":"money","col":3 ,"readonly":true},
+						"journalNumber" :{"title":"Yev.No", "type":"number","col":2, "readonly":true}
+					}
+				},
+				"entryLine" :{
+					"title":"Satırlar", 
+					"type":"grid",
+					"fields": {
+						"lineNo" :{"title":"#", "type":"identity","readonly":true, "width":"50px"},
+						"account" :{"title":"Hesap", "type":"remoteLookup",
+							"dataSource":{
+								"type":"remote",
+								"method":"GET",
+								"url":"/dbapi/accounts",
+								"label":"{accountCode} {name}"
+							},
+							"displayFormat":"{accountCode} {name}",
+							"required":true
+						},
+						"debit" :{"title":"Borç", "type":"money" , "calc":"{credit}>0?0:{debit}"},
+						"credit" :{"title":"Alacak", "type":"money", "calc":"{debit}>0?0:{credit}"},
+						"detailComment" :{"title":"Satır Açıklama", "type":"string"},
+						"journalLineNumber" :{"title":"Yev.Mad.No", "type":"number","readonly":true}
+					},
+					"options": {
+						"selection": false,
+						"filter": false,
+						"confirmBeforeRemove":true,
+						"buttons": {
+							"add": true,
+							"edit": true,
+							"delete": true,
+							"view": false,
+							"print": false,
+							"copy": false
+						}
+					},
+					"onchange":"toplamlariGuncelle(this)"
+				}
+			},
+			"options": {
+				"mode": "general",
+				"isForm":true
+			},
+			"dataSource": {
+				"method":"GET",
+				"url":"/dbapi/accounting-entries"
+			},
+			"script":[
+				"function toplamlariGuncelle(grid){",
+				"var totalDebit=0, totalCredit=0 ",
+				"grid.value.forEach((e)=>{",
+				"totalDebit+=Number(e.debit)",
+				"totalCredit+=Number(e.credit)",
+				"})",
+				"$('#totalDebit').val(totalDebit)",
+				"$('#totalCredit').val(totalCredit)",
+				"}"
+			]
+			
+		}
+	],
+	"print": [
+		{
+			"type":"html",
+			"noGroup":true,
+			"title":"print data",
+			"dataSource": {
+				"method":"GET",
+				"url":"/dbapi/accounting-entries/print"
+			}
+		}
+	]
+}

@@ -1,0 +1,89 @@
+
+<div class="modal" id="modalFormOptions" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="modalFormOptionsLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header p-2 ">
+				<label class="modal-title" id="modalFormOptionsLabel"><i class="fas fa-cogs"></i> Form Options</label>
+				<button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body p-2" style="overflow: auto;">
+				<table class="table form-table table-bordered table-striped m-0"  cellspacing="0">
+					<thead>
+						<tr class="text-nowrap">
+							<th width="30" class="">#</th>
+							<th class="">Program Adı</th>
+							<th class="">Türü</th>
+						</tr>
+					</thead>
+					<tbody id="gridPrograms">
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-primary" href="javascript:modalFormOptions_OK()" title="Kaydet"><i class="fas fa-check"></i> Tamam</a>
+				<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal" id="modalMessage" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="modalMessageLabel" aria-hidden="true" style="z-index: 1051">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div id="modalMessageHeader" class="modal-header p-2 ">
+				<label class="modal-title" id="modalMessageLabel"></label>
+				<button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body p-2" style="overflow: auto;">
+				
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="button" data-bs-dismiss="modal">Tamam</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="modalConfirm" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header modal-body row align-items-center p-3" style="overflow: auto;">
+				<div class="col-md-2 icon" style="font-size:16pt;">
+					<i class="fas fa-question-circle fa-2x"></i>
+				</div>
+				<div class="col message" style="font-size:12pt;">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="modalConfirmOk" class="btn btn-primary" type="button" data-bs-dismiss="modal">Tamam</button>
+				<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="modalCopy" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="modalCopyLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div id="modalCopyHeader" class="modal-header p-2 ">
+				<label class="modal-title"><i class="fas fa-copy"></i> <span id="modalCopyLabel"></span></label>
+				<button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" style="overflow: auto;">
+				
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:modalCopyOk()" id="modalCopyOk" class="btn btn-primary">Tamam</a>
+				<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+			</div>
+		</div>
+	</div>
+</div>
+
