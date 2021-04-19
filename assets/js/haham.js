@@ -848,7 +848,6 @@
 			</button>
 			</div>
 			<div class="modal-body p-2" style="overflow: auto;">
-
 			</div>
 			<div class="modal-footer">
 			</div>
@@ -1743,7 +1742,7 @@ function checkBox(item){
 
 function dateRangeBox(item){
 	var s=`<div id="${item.id}" class="d-md-flex m-0 p-0">
-	<select class="form-control ${item.class || ''}" name="cbDate" id="cbDate">
+	<select class="form-control ${item.class || ''}" name="cbDate" id="cbDate" style="width:fit-content;">
 	<option value="">Tarih</option>
 	<option value="today">Bugün</option>
 	<option value="thisWeek">Bu Hafta</option>

@@ -4,33 +4,20 @@
 		{
 			"type":"filter",
 			"fields" :{
-				"year" :{"title":"Yıl", "type":"lookup", "col":2 ,"staticValues":"yearList","value":"${(new Date()).getFullYear()}", "onchange":"yearPeriod_change()"},
-				"period" :{"title":"Dönem", "type":"lookup", "col":2, "staticValues":"monthList","value":"${(new Date()).getMonth()+1}", "onchange":"yearPeriod_change()"},
-				"date1":{"title":"Tarih 1" , "type":"date", "col":2, "value":"${(new Date((new Date()).setDate(1))).yyyymmdd()}"},
-				"date2":{"title":"Tarih 2" , "type":"date", "col":2,"value":"${(new Date()).lastThisMonth().yyyymmdd()}"}
-			},
-			"script":[
-				"function yearPeriod_change(){",
-				"let yil=$('#year').val()",
-				"let period=$('#period').val()",
-				"if(yil!='' && period!=''){",
-				"let tarih1=(new Date(Number(yil),Number(period)-1,1)).yyyymmdd()",
-				"let tarih2=(new Date(Number(yil),Number(period)-1,1)).lastThisMonth().yyyymmdd()",
-				"$('#date1').val(tarih1)",
-				"$('#date2').val(tarih2)",
-				"",
-				"}",
-				"}"
-			]
+				"tarih" :{"title":"Tarih", "type":"dateRange"}
+			}
 		},
 		{
 			"type": "grid",
 			"fields": {
+				"year" :{"title":"Yıl", "type":"lookup","staticValues":"yearList", "width":"60px"},
+				"period" :{"title":"Dönem", "type":"lookup", "staticValues":"monthList", "width":"120px"},
 				"entryNumber" :{"title":"Fiş No", "type":"number"},
 				"documentDate" :{"title":"Belge Tarih", "type":"date", "filter":false},
 				"documentNumber" :{"title":"Belge No", "type":"string"},
 				"totalDebit" :{"title":"T.Borç", "type":"money"},
 				"totalCredit" :{"title":"T.Alacak", "type":"money"},
+				"lineCountNumeric" :{"title":"Satır", "type":"number"},
 				"journalNumber" :{"title":"Yev.No", "type":"number"}
 			},
 			"options": {

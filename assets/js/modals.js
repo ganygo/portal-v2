@@ -96,8 +96,7 @@ function confirmX(message, type='info',cb){
 		type='info'
 	}
 
-	console.log(`typeof cb:`,typeof cb)
-	console.log(`typeof type:`,typeof type)
+	
 	$('#modalConfirm .modal-content').removeClass('alert-warning')
 	$('#modalConfirm .modal-content').removeClass('alert-info')
 	$('#modalConfirm .modal-content').removeClass('alert-danger')
@@ -111,10 +110,10 @@ function confirmX(message, type='info',cb){
 	$('#modalConfirm').on('hidden.bs.modal', function (e) {
 		$('#modalConfirm').unbind('hidden.bs.modal')
 		if(cb){
-			console.log(`confirmX_response:`,confirmX_response)
 			cb(confirmX_response)
 		}
 	})
+
 	$('#modalConfirmOk').on('click', function (e) {
 		$('#modalConfirmOk').unbind('click')
 		confirmX_response=true

@@ -335,6 +335,7 @@ function getAjax(url,labelStr='{name}',exceptId='',cb){
 
 
 function remoteLookupAutocomplete(locals){
+	
 	if(locals.dataSource==undefined)
 		return
 
@@ -371,6 +372,7 @@ function remoteLookupAutocomplete(locals){
 	var labelStr=(locals.dataSource.label || '{name}')
 	var valueText=locals.valueText || ''
 
+
 	$(`#${locals.id}-autocomplete-text`).autocomplete({
 		source:function(request,response){
 			var typedText=encodeURIComponent2(request.term)
@@ -392,6 +394,7 @@ function remoteLookupAutocomplete(locals){
 			if(locals.lookupTextField){
 				$(`input[name="${locals.lookupTextFieldName}"]`).val((ui.item.label || ''))
 				$(`#${locals.id}-original-text`).html((ui.item.label || ''))
+				$(`#${locals.id}-original-text`).attr('title',(ui.item.label || ''))
 			}
 			if(locals.onchange){
 				eval(`${locals.onchange}`)
@@ -408,6 +411,7 @@ function remoteLookupAutocomplete(locals){
 			$(`#${locals.id}-obj`).val('')
 			if(locals.lookupTextField){
 				$(`#${locals.id}-original-text`).html('')
+				$(`#${locals.id}-original-text`).attr('title','')
 			}
 		}
 		if(locals.lookupTextField){
@@ -430,6 +434,7 @@ function remoteLookupAutocomplete(locals){
 
 					if(locals.lookupTextField){
 						$(`#${locals.id}-original-text`).html((result[0].label || ''))
+						$(`#${locals.id}-original-text`).attr('title',(result[0].label || ''))
 					}
 
 				}else{
@@ -438,6 +443,7 @@ function remoteLookupAutocomplete(locals){
 					$(`input[name="${locals.name}"]`).val('')
 					$(`#${locals.id}-obj`).val('')
 					$(`#${locals.id}-original-text`).html('')
+					$(`#${locals.id}-original-text`).attr('title','')
 				}
 
 			}else{
@@ -535,19 +541,6 @@ function replaceUrlCurlyBracket(url,item){
 		url=url.replaceAll(`{${e}}`,value)
 	})
 
-
-	// try{
-	// let s1=url.indexOf('${')
-	// let s2=url.indexOf('}',s1+1)
-	// while(s1>-1 && s2>-1){
-	// 	let evalStr=url.substr(s1+2, s2-(s1+2))
-	// 	let evalVal=eval(evalStr)
-	// 	url=url.substr(0,s1) + evalVal + url.substr(s2+1)
-	// 	s1=url.indexOf('${',s1)
-	// 	s2=url.indexOf('}',s1+1)
-	// }
-	// }catch(tryErr){}
-
 	return url
 }
 
@@ -616,6 +609,101 @@ function getFormData(divId){
 }
 
 function getRemoteData(item,cb){
+	
+	var data=item.value || ''
+
+	if(item.value==undefined){
+		switch(item.type){
+			case 'grid':
+			data=[]
+			break
+			case 'form':
+			data={}
+			break
+			case 'filter':
+			data={}
+			break
+
+			case 'number':
+			case 'money':
+			data=0
+			break
+			case 'boolean':
+			data=false
+			break
+			default:
+			data=''
+			break
+		}
+	}
+
+	if(item.dataSource==undefined){
+		return cb(null,data)
+	}
+
+	var url=''
+	if(hashObj.func=='print'){
+		url=item.dataSource.printUrl || item.dataSource.url
+	}else{
+		url=item.dataSource.url
+	}
+
+	var bHashParamsEkle=false
+	if(hashObj.func=='addnew'){
+		return cb(null,item)
+	}else{
+		if(hashObj.id){
+			url=`${url.split('?')[0]}/${hashObj.id}`
+			if(url.split('?')[1]){
+				url+='?' + url.split('?')[1]
+			}
+		}
+	}
+	var filterString=''
+	Object.keys(hashObj.query).forEach((key)=>{
+		if(key!='mid'){
+			if(filterString!='')
+				filterString+='&'
+			filterString+=`${key}=${encodeURIComponent2(hashObj.query[key])}`
+		}
+	})
+	if(filterString!=''){
+		url+=`${url.indexOf('?')>-1?'&':'?'}${filterString}`
+	}
+	
+	$.ajax({
+		url:url,
+		type:item.dataSource.method || 'GET',
+		dataType: 'json',
+		success: function(result) {
+			if(result.success==undefined){
+				if(Array.isArray(result)){
+					data.docs=result
+					data.paging={
+						page:1,
+						pageCount:1,
+						pageSize:10,
+						recordCount:result.length
+					}
+				}else{
+					data=result
+				}
+				cb(null,data)
+			}else if(result.success){
+				data=result.data
+				cb(null,data)
+			}else{
+				cb(result.error)
+			}
+		},
+		error:function(err){
+			cb(err)
+		}
+	})
+
+}
+
+function silinecek___getRemoteData_eski(item,cb){
 	
 	var data={
 		value:item.value || ''
@@ -792,7 +880,6 @@ function formSave(dataSource,formData){
 		}
 	}else{
 		method='PUT'
-		//return alertX('URL hatasi var')
 	}
 
 	if(method=='POST'){
@@ -864,474 +951,6 @@ function collectFieldList(item){
 		})
 	}
 	return fieldList
-}
-
-function gridModalAddRow(tableId,insideOfModal){
-	gridModalEditRow(-1,tableId,insideOfModal)
-}
-
-function gridModalEditRow(rowIndex,tableId,insideOfModal){
-	var frm=FormControl.FormControl
-	var table=document.getElementById(tableId)
-	var thead=document.querySelector(`#${tableId} thead`)
-	var tbody=document.querySelector(`#${tableId} tbody`)
-	var item=clone(table.item)
-
-	if(rowIndex>-1){
-		
-	}
-
-
-	var gridLine={}
-
-	if(item.modal){
-		gridLine=clone(item.modal)
-	}else{
-		gridLine={
-			fields:clone(item.fields || {})
-		}
-	}
-	script=''
-	gridLine.id=tableId
-	gridLine.type="modal"
-	gridLine.options={autocol:true}
-
-	if(rowIndex>=0){
-		gridLine.value=item.value[rowIndex]
-		$(`#modalRow${tableId} .modal-title`).html(`#${rowIndex+1} satırını düzenle`)
-	}else{
-		gridLine.value={}
-		$(`#modalRow${tableId} .modal-title`).html('Yeni satir')
-
-	}
-
-	gridLine=modalRowIcinParentFieldAyarla(item,gridLine)
-	frm.item=gridLine
-	$(`#modalRow${tableId} .modal-body`).html(`<div class="row">${frm.generateControls(gridLine,{value:gridLine.value},false,true,-1)}</div>`)
-	$(`#modalRow${tableId} .modal-footer`).html(`<a class="btn btn-primary" href="javascript:gridModalOK('${tableId}',${rowIndex},${insideOfModal})" title="Kaydet"><i class="fas fa-check"></i> Tamam</a><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Vazgeç</button>`)
-
-	script+=frm.script
-	script+=`
-	$('#modalRow${tableId} .modal-body input,select').on('change',(e)=>{
-		var fields=${JSON.stringify(gridLine.fieldList)}
-		var valueObj=getDivData('#modalRow${tableId}','modalRow${tableId}')
-		Object.keys(fields).forEach((key)=>{
-			if(fields[key].id!=e.target.id && fields[key].calc){
-				try{
-					$(\`#\${fields[key].id}\`).attr('type','text')
-					$(\`#\${fields[key].id}\`).val(eval(replaceUrlCurlyBracket(fields[key].calc,valueObj)))
-				}catch(tryErr){
-					console.error('tryErr:',tryErr)
-					$(\`#\${fields[key].id}\`).val(replaceUrlCurlyBracket(fields[key].calc,valueObj))
-				}
-			}
-		})
-	})
-	`
-
-	if(script!=''){
-		$(`#${tableId}`).append(`<script type="text/javascript">${script}<\/script>`)
-	}
-
-
-	$(`#modalRow${tableId}`).modal('show')
-}
-
-function modalRowIcinParentFieldAyarla(item, gridLine){
-	var pfield=`modalRow${item.id}`
-	var fieldList={}
-
-	if(gridLine.tabs){
-		gridLine.tabs.forEach((tab)=>{
-			if(tab.fields){
-				var fields={}
-				Object.keys(tab.fields).forEach((key)=>{
-					fields[`${pfield}.${key}`]=tab.fields[key]
-					if(tab.fields[key].lookupTextField){
-						fields[`${pfield}.${key}`].lookupTextField=`${pfield}.${tab.fields[key].lookupTextField}`
-					}
-				})
-				tab.fields=fields
-				fieldList=Object.assign({},fieldList,clone(fields))
-			}
-		})
-	}else if(gridLine.fields){
-		var fields={}
-		Object.keys(gridLine.fields).forEach((key)=>{
-			fields[`${pfield}.${key}`]=gridLine.fields[key]
-			if(gridLine.fields[key].lookupTextField){
-				fields[`${pfield}.${key}`].lookupTextField=`${pfield}.${gridLine.fields[key].lookupTextField}`
-			}
-		})
-		gridLine.fields=fields
-		fieldList=Object.assign({},fieldList,clone(fields))
-	}
-
-	var listObj=objectToListObject(gridLine.value)
-
-	gridLine.value={}
-	Object.keys(listObj).forEach((key)=>{
-		gridLine.value[`${pfield}.${key}`]=listObj[key]
-	})
-	gridLine.value=listObjectToObject(gridLine.value)
-
-	Object.keys(fieldList).forEach((key)=>{
-		fieldList[key].id=generateFormId(key)
-		fieldList[key].name=generateFormName(key)
-	})
-	gridLine.fieldList=fieldList
-
-	return gridLine
-}
-
-function gridModalOK(tableId,rowIndex,insideOfModal){
-	var table=document.getElementById(tableId)
-	var pfield=`modalRow${tableId}`
-	var satirObj=getDivData(`#modalRow${tableId}`,pfield,false)
-	var item=clone(table.item)
-	if(rowIndex>-1){
-		item.value[rowIndex]=satirObj
-	}else{
-		item.value.push(satirObj)
-	}
-	var frm=FormControl.FormControl
-	$(`#${tableId}`).html(frm.gridHtml(item,false,insideOfModal))
-	frm.script+=`
-	document.getElementById('${tableId}').item=${JSON.stringify(item)}
-	`
-	grid_onchange(item)
-	$(`#${tableId}`).append(`<script type="text/javascript">${frm.script}<\/script>`)
-
-	$(`#modalRow${tableId}`).modal('hide')
-}
-
-function gridSatirDuzenle(rowIndex,tableId,insideOfModal){
-	var frm=FormControl.FormControl
-	var table=document.getElementById(tableId)
-	var thead=document.querySelector(`#${tableId} thead`)
-	var tbody=document.querySelector(`#${tableId} tbody`)
-
-	if(rowIndex>-1){
-		var trYedek=tbody.rows[rowIndex].cloneNode(true)
-		tbody.deleteRow(rowIndex)
-		var editRow=tbody.insertRow(rowIndex)
-		editRow.id=`${tableId}-gridSatir-edit-${rowIndex}`
-		editRow.detail=trYedek
-
-		editRowSekillendir(table.item,editRow,tableId,rowIndex)
-		var fieldList=clone(table.item.fields)
-
-		editRowCalculation(`#${tableId} tbody #${editRow.id}`, `${table.item.parentField}.${rowIndex}`, fieldList)
-		// ilkElemanaFocuslan(`#${tableId} tbody #${editRow.id}`)
-	}
-
-	$(`#${tableId}`).append(`<script type="text/javascript">${frm.script}<\/script>`)
-
-	function editRowSekillendir(item,editRow,tableId,rowIndex){
-		Object.keys(item.fields).forEach((key,cellIndex)=>{
-			var field=item.fields[key]
-			field.field=`${item.field}.${rowIndex}.${key}`
-			field.id=generateFormId(field.field)
-			field.name=generateFormName(field.field)
-			field.noGroup=true
-			field.value=''
-			var td=editRow.insertCell()
-			if(field.visible===false){
-				td.innerHTML=editRow.detail.cells[cellIndex].innerHTML
-				td.classList.add('hidden')
-				
-
-			}else{
-				if(editRow.detail.cells[cellIndex].querySelector(`input`)){
-					field.value=editRow.detail.cells[cellIndex].querySelector(`input`).value
-				}
-				if(field.type=='boolean'){
-					field.class='grid-checkbox'
-					field.value=field.value.toString()==='true'?true:false
-				}
-
-				field.valueText=editRow.detail.cells[cellIndex].innerText
-				var data={value:{}}
-				data.value[field.field]=field.value
-				if(field.lookupTextField){
-					data.value[field.lookupTextField]=field.valueText
-				}
-				data.value=listObjectToObject(data.value)
-
-				td.innerHTML=frm.generateControls(field,data)
-			}
-
-			
-			
-			
-
-			
-		})
-		var td=editRow.insertCell()
-		td.classList.add('text-center')
-		td.innerHTML=`<a href="javascript:gridSatirOK('${tableId}','${editRow.id}',${rowIndex},${insideOfModal})" class="btn btn-primary btn-grid-row" title="Tamam"><i class="fas fa-check"></i></a>
-		<a href="javascript:gridSatirVazgec('${tableId}','${editRow.id}',${rowIndex},${insideOfModal}) "class="btn btn-dark btn-grid-row" title="Vazgeç"><i class="fas fa-reply"></i></a>
-		`
-	}
-}
-
-function grid_onchange(item){
-	console.log(`grid_onchange calisti:`)
-	if(item.onchange){
-		var onchange=item.onchange
-		if(onchange.indexOf('this.value')>-1){
-			onchange=onchange.replace('this.value',`JSON.parse(decodeURIComponent('${encodeURIComponent2(JSON.stringify(item.value))}'))`)
-			eval(onchange)
-		}else if(onchange.indexOf('this')>-1){
-			onchange=onchange.replace('this',`JSON.parse(decodeURIComponent('${encodeURIComponent2(JSON.stringify(item))}'))`)
-			eval(onchange)
-		}else{
-			eval(onchange)
-		}
-	}
-}
-
-function gridSatirOK(tableId,rowId,rowIndex,insideOfModal){
-	
-	var table=document.getElementById(tableId)
-	var satirObj=getDivData(`#${tableId} #${rowId}`,`${table.item.parentField}.${rowIndex}`)
-	var item=clone(table.item)
-
-	if(rowIndex>-1){
-		
-		item.value[rowIndex]=Object.assign({},item.value[rowIndex],satirObj)
-	}else{
-		item.value.push(satirObj)
-	}
-	
-	var frm=FormControl.FormControl
-	$(`#${tableId}`).html(frm.gridHtml(item,false,insideOfModal))
-	frm.script+=`
-	document.getElementById('${tableId}').item=${JSON.stringify(item)}
-	`
-	if(rowIndex<0){
-		frm.script+=`
-		ilkElemanaFocuslan('#${tableId} tbody #${rowId}')
-		`
-	}
-	grid_onchange(item)
-	$(`#${tableId}`).append(`<script type="text/jtavascript">${frm.script}<\/script>`)
-}
-
-function gridSatirSil(rowIndex,tableId,insideOfModal){
-	var table=document.getElementById(tableId)
-	var item=clone(table.item)
-	if(rowIndex>-1){
-		item.value.splice(rowIndex,1)
-	}
-	var frm=FormControl.FormControl
-	$(`#${tableId}`).html(frm.gridHtml(item,false,insideOfModal))
-	frm.script+=`
-	document.getElementById('${tableId}').item=${JSON.stringify(item)}
-	`
-	grid_onchange(item)
-	$(`#${tableId}`).append(`<script type="text/javascript">${frm.script}<\/script>`)
-	// $(`#${tableId}`).append(`<script type="text/javascript">document.getElementById('${tableId}').item=${JSON.stringify(item)}<\/script>`)
-}
-
-function gridSatirVazgec(tableId,rowId,rowIndex,insideOfModal){
-	if(rowIndex>-1){
-
-		var editRow=document.getElementById(rowId)
-		editRow.innerHTML=editRow.detail.innerHTML
-	}else{
-		var table=document.getElementById(tableId)
-		var item=clone(table.item)
-		var frm=FormControl.FormControl
-		$(`#${tableId}`).html(frm.gridHtml(item,false,insideOfModal))
-		frm.script+=`
-		document.getElementById('${tableId}').item=${JSON.stringify(item)}
-		ilkElemanaFocuslan('#${tableId} tbody #${rowId}')
-
-		`
-		$(`#${tableId}`).append(`<script type="text/javascript">${frm.script}<\/script>`)
-
-
-	}
-}
-
-function ilkElemanaFocuslan(selector){
-	var ilkEleman=document.querySelector(`${selector}`).querySelector('input,select')
-	if(ilkEleman){
-		ilkEleman.focus()
-		if(typeof ilkEleman.select === 'function'){
-			if(ilkEleman.getAttribute('readonly')!=undefined || ilkEleman.getAttribute('disabled')!=undefined){
-				enterNext(ilkEleman)
-			}else{
-				ilkEleman.select()
-			}
-		}
-	}
-}
-
-function editRowCalculation(selector, prefix, fields){
-
-	$(`${selector} input,select`).on('change',(e)=>{
-		var valueObj=getDivData(selector,prefix)
-		Object.keys(fields).forEach((key)=>{
-			if(fields[key].id!=e.target.id && fields[key].calc){
-				try{
-					$(`#${fields[key].id}`).attr('type','text')
-					$(`#${fields[key].id}`).val(eval(replaceUrlCurlyBracket(fields[key].calc,valueObj)))
-				}catch(tryErr){
-					$(`#${fields[key].id}`).val(replaceUrlCurlyBracket(fields[key].calc,valueObj))
-				}
-			}
-		})
-	})
-}
-
-function gridDeleteItem(rowIndex,tableId){
-	var table=document.getElementById(tableId)
-	var item=clone(table.item)
-	if(!item.dataSource)
-		return
-	if(!item.value)
-		return
-
-	var row=table.querySelectorAll('tbody tr')[rowIndex]
-	var listItem=item.value[rowIndex]
-	if(!row)
-		return
-
-
-	var soru=`Belge/Nesne silinecektir! Onaylıyor musunuz?`
-	var i=0
-	soru+=`<br><hr class="hr-primary">`
-	while(i<row.cells.length && i<4){
-		if(row.cells[i].innerText.trim()!=''){
-			soru+=`${row.cells[i].innerHTML.trim()}<br>`
-		}
-		i++
-	}
-
-	var url=''
-	if(item.dataSource.deleteUrl){
-		url=item.dataSource.deleteUrl.split('?')[0]
-		if(url.indexOf('{_id}')<0){
-			url+=`/{_id}`
-		}
-	}else{
-		url=item.dataSource.url.split('?')[0]
-		url+=`/{_id}`
-	}
-	url=replaceUrlCurlyBracket(url,listItem)
-
-	confirmX(soru,'danger',(answer)=>{
-		if(!answer)
-			return
-		$.ajax({
-			url:url,
-			type:'DELETE',
-			success: function(result) {
-				if(result.success){
-					window.onhashchange()
-				}else{
-					showError(result.error)
-				}
-			},
-			error:function(err){
-				showError(err)
-			}
-		})
-	})
-}
-
-function gridCopyItem(rowIndex,tableId){
-	var table=document.getElementById(tableId)
-	var item=clone(table.item)
-	if(!item.dataSource)
-		return
-	if(!item.value)
-		return
-
-	var row=table.querySelectorAll('tbody tr')[rowIndex]
-	var listItem=item.value[rowIndex]
-	if(!row)
-		return
-
-	if(item.dataSource.copyUrl){
-		url=item.dataSource.copyUrl.split('?')[0]
-		if(url.indexOf('{_id}')<0){
-			url+=`/{_id}`
-		}
-	}else{
-		url=item.dataSource.url.split('?')[0]
-		url+=`/copy/{_id}`
-	}
-	url=replaceUrlCurlyBracket(url,listItem)
-
-	var name=''
-	var nameTitle=''
-	var key=''
-	var placeholder=''
-	if(item.fields['name']){
-		key='name'
-		name=listItem['name'] || ''
-		nameTitle=item.fields['name'].title || ''
-	}else if(item.fields['name.value']){
-		key='name.value'
-		name=getPropertyByKeyPath(listItem,'name.value') || ''
-		nameTitle=item.fields['name.value'].title || ''
-	}else if(item.fields['ID']){
-		key='ID'
-		name=listItem['ID'] || ''
-		nameTitle=item.fields['ID'].title || ''
-	}else if(item.fields['ID.value']){
-		key='ID.value'
-		name=getPropertyByKeyPath(listItem,'ID.value') || ''
-		nameTitle=item.fields['ID.value'].title || ''
-	}
-
-	if(name==''){
-		Object.keys(item.fields).forEach((k)=>{
-			if(name=='' && item.fields[k].type=='string' && item.fields[k].readonly!==true && item.fields[k].visible!==false){
-				key=k
-				name=getPropertyByKeyPath(listItem,k)
-				nameTitle=item.fields[key].title || ''
-			}
-		})
-	}
-	if(key=='ID' || key=='ID.value'){
-		name=''
-		placeholder='Boş ise otomatik verilir'
-	}else{
-		name+=' kopya'
-	}
-
-	copyX({
-		newName:{title:`Yeni ${nameTitle}`,type:'string',value:`${name}`, placeholder:`${placeholder}`}
-	},'Kopya oluştur',(answer,formData)=>{
-		if(!answer)
-			return
-		$.ajax({
-			url:url,
-			data:formData,
-			type:'POST',
-			success: function(result) {
-				if(result.success){
-					if(result.data['newName']){
-						alertX(`Yeni ad/kod:<br> <b>${result.data['newName']}</b>`,'Kopyalama başarılı',(answer)=>{
-							window.onhashchange()
-						})
-					}else{
-						window.onhashchange()
-					}
-					
-				}else{
-					showError(result.error)
-				}
-			},
-			error:function(err){
-				showError(err)
-			}
-		})
-	})
 }
 
 
@@ -1424,52 +1043,7 @@ function runFilter(selector,prefix=''){
 	}
 }
 
-function gridCSVExport(gridId){
-	
-	var grid=document.querySelector(`#${gridId}`)
-	var thead=document.querySelector(`#${gridId} table thead`)
-	var tbody=document.querySelector(`#${gridId} table tbody`)
-	var item=grid.item
-	var s=``
-	var i=0,j=0
-	while(j<thead.rows[0].cells.length){
-		if(item.options.selection && j==0){
 
-		}else{
-			if(!thead.rows[0].cells[j].classList.contains('hidden')){
-				s+='"' + thead.rows[0].cells[j].innerText + '";'
-			}
-			
-		}
-		
-		j++
-	}
-	
-	s+='\r\n'
-
-	while(i<tbody.rows.length){
-		j=0
-		while(j<tbody.rows[i].cells.length){
-			if(item.options.selection && j==0){
-
-			}else{
-				if(!tbody.rows[i].cells[j].classList.contains('hidden'))
-					s+='"' + tbody.rows[i].cells[j].innerText.replaceAll('\r\n',' ').replaceAll('\n',' ') + '";'
-			}
-			
-			j++
-		}
-		s+='\r\n'
-
-		i++
-	}
-	var fileName=(document.title || '').split('-')[0].trim() + '.csv'
-
-	var blob = new Blob([String.fromCharCode(0xFEFF),s], {type: "text/plain;charset=utf-8", autoBom:true})
-	saveAs(blob, fileName)
-	
-
-}
 
 
 function menuLink(path,filter){
@@ -1577,11 +1151,11 @@ function generateMenu(menu,mid,parent){
 			if(parent){
 				s+=`id="pagesCollapse${menu.mId.replaceAll('.','-')}" data-bs-parent="#pagesCollapse${parent.mId.replaceAll('.','-')}">`
 				s+=`<nav class="nav ms-4 accordion" id="navId${menu.mId.replaceAll('.','-')}">
-			`
+				`
 			}else{
 				s+=`id="pagesCollapse${menu.mId.replaceAll('.','-')}" data-bs-parent="#sidenavAccordion">`
 				s+=`<nav class="nav accordion" id="navId${menu.mId.replaceAll('.','-')}">
-			`
+				`
 			}
 
 			
@@ -1725,7 +1299,7 @@ function windowPathToFieldName(path=''){
 }
 
 
-function programButtons(panelButtons=''){
+function programButtons1111(panelButtons=''){
 	var prgButtons=[]
 	if(hashObj.settings){
 		prgButtons=hashObj.settings.programButtons || []

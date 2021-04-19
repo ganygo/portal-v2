@@ -1,4 +1,7 @@
 <% layout('./layouts/plain') %>
+<script type="text/javascript" src="<%- assetVersion('/js/poc-helper.js') %>"></script>
+
+
 <style type="text/css">
 	body{
 		background-color: #333333!important;
@@ -46,14 +49,11 @@
 	if(data.token){
 		localStorage.setItem('global',JSON.stringify(data || {}))
 
-		// setTimeout(()=>{
-			var q=getAllUrlParams()
-			// if(q.r || q.ret || q.returnUrl){
-			// 	window.location.href=q.r || q.ret || q.returnUrl
-			// }else{
-				window.location.href='/haham#/dashboard/main'
-			// }
-		// },3000)
+		var q=getAllUrlParams()
+		
+		//window.location.href='/poc#/dashboard/main?mid=0'
+		window.location.href='/poc#/despatch/outbox?mid=1.2'
+
 	}
 	
 

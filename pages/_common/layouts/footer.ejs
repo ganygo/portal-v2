@@ -1,17 +1,17 @@
-<footer class="footer">
+<footer class="footer mt-5 mt-md-1">
 	<div class="d-md-flex">
-		<div class="text-muted ms-2">
-			<a href="javascript:modalFormOptions();" class="btn btn-sm btn-info " title="Form Ayarları"
-			style="font-size: 11px!important; height: 22px; padding: 2px;"><i class="fas fa-cogs"></i> Form Ayarları</a>
-		</div>
-		<div class="flex-fill text-muted mt-1 ms-2 ms-md-3">&copy; <%- (new Date()).getFullYear() %> Gani Teknoloji, Tüm hakları saklıdır.</div>
-
-		<div class="d-md-flex text-primary mt-1 ms-2">
-			<div class="" title="Aktif kullanıcı">
-				<i class="fas fa-user"></i> <%- session.username %>
+		<div class="d-flex flex-md-fill justify-content-between justify-content-md-start">
+			<div class="text-muted ms-2">
+				<a href="javascript:modalFormOptions();" class="btn btn-sm btn-info " title="Form Ayarları"	style="font-size: 11px!important; height: 22px; padding: 2px;"><i class="fas fa-cogs"></i> Form Ayarları</a>
 			</div>
-			<div id="dbLabel" class="mx-md-3" title="Aktif veri ambarı">
-				<i class="fas fa-database"></i> <%- dbName %>
+			<div class="text-muted mt-1 mx-3">&copy; <%- (new Date()).getFullYear() %> Gani Teknoloji</div>
+		</div>
+		<div class="d-flex text-primary mt-1 ms-2 justify-content-between">
+			<div class="" title="Aktif kullanıcı">
+				<i class="fas fa-user mt-1 me-1"></i> <%- session.username %>
+			</div>
+			<div id="dbLabel" class="mx-3" title="Aktif veri ambarı">
+				<i class="fas fa-database mt-1 me-1"></i> <%- dbName %>
 			</div>
 		</div>
 	</div>

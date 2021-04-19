@@ -17,7 +17,8 @@ module.exports = function(app){
 
 	app.all('/', function(req, res) {
 		if(req.session.elvanDalton){
-			res.redirect('/haham#/dashboard/main')
+			// res.redirect('/haham#/dashboard/main')
+			res.redirect('/poc#/despatch/outbox?mid=1.2')
 		}else{
 
 			res.redirect('/login')
@@ -57,9 +58,7 @@ module.exports = function(app){
 
 	app.all('/login', function(req, res) {
 		try{
-			// if(req.session.elvanDalton){
-			// 	// res.redirect('/haham#dashboard/main')
-			// }else 
+		
 
 			if(!req.query.auth){
 				var currentUrl=`${req.protocol}://${req.get('host')}${req.originalUrl}`
@@ -254,6 +253,8 @@ function pageRander(req,res){
 	
 }
 
+
+
 function IsSpecialPages(req){
 	// if(req.params.module=='general' && (req.params.page=='login' || req.params.page=='error' || req.params.page=='dashboard' || req.params.page=='closed-module')){
 	// 	return true
@@ -263,8 +264,11 @@ function IsSpecialPages(req){
 
 
 var userInfo = function (req, res, next) {
-	
-	if(req.params.page=='haham'){
+	//qwerty gecici eklenmistir. kaldirilacak
+	if((req.session.elvanDalton || '')==''){
+		req.session.elvanDalton='6071290e818ac02c3cf07a59'
+	}
+	if(req.params.page=='poc' || req.params.page=='haham'){
 		if((req.session.elvanDalton || '')!=''){
 			db.sessions.findOne({_id:req.session.elvanDalton},(err,doc)=>{
 				if(!err){
@@ -334,7 +338,7 @@ function setGeneralParams(req, res, data, cb){
 	var referer=req.headers.referer || ''
 	var currentUrl=req.protocol + '://' + req.get('host') + req.originalUrl
 
-	data['elvanDalton']=req.session.elvanDalton || ''
+	data['elvanDalton']=req.session.elvanDalton || '6071290e818ac02c3cf07a59'
 	data['token']=req.session.token || ''
 	data['mid']=req.query.mid || ''
 	data['leftMenu']=[]
@@ -342,6 +346,7 @@ function setGeneralParams(req, res, data, cb){
 	data['db']=''
 	data['dbName']=''
 	data['session']={}
+
 
 	data['message']=data['message']==undefined?'':data['message']
 	data['successMessage']=data['successMessage']==undefined?'':data['successMessage']
@@ -356,10 +361,16 @@ function setGeneralParams(req, res, data, cb){
 			if(doc!=null){
 				data['db']=doc.dbId
 				data['dbName']=doc.dbName
+				
 				data['mid']=req.query.mid || doc.mId || ''
 				data['leftMenu']=doc.menu
 				data['databases']=doc.databases
 				data['session']=doc.toJSON()
+
+				if((req.session.token || '')==''){
+					req.session.token=doc.token
+					data['token']=doc.token
+				}
 				cb(null, data)
 			}else{
 				cb({code:'SESSION_NOT_FOUND',message:'Oturum süresi bitmiş. Yeniden giriş yapınız.'})

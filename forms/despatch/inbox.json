@@ -5,8 +5,8 @@
 			"type":"filter",
 			"fields" :{
 				"tarih" :{"title":"Tarih", "type":"dateRange"},
-				"profileId.value" :{"title":"Senaryo","type":"lookup", "staticValues":"despatchProfileIdList","col":3},
-				"despatchAdviceTypeCode.value" :{"title":"Tipi","type":"lookup", "staticValues":"despatchAdviceTypeCodeList","col":3}
+				"profileId.value" :{"title":"Senaryo","type":"lookup", "staticValues":"despatchProfileIdList","col":2},
+				"despatchAdviceTypeCode.value" :{"title":"Tipi","type":"lookup", "staticValues":"despatchAdviceTypeCodeList","col":2}
 			}
 		},
 		{
@@ -17,8 +17,8 @@
 				"tarih"	:{"title":"Tarih",  "type":"string","html":"{issueDate}<br><small class=\"text-primary\">{issueTime}</small>","width":"130px"},
 				"musteri"	:{"title":"Müşteri", "type":"string", "filterField":"partyName", "html":"<b>{party.title}</b><br><small class=\"text-primary\">{party.vknTckn}</small> | Satır:{lineCountNumeric}"},
 				"despatchStatus"	:{"title":"GİB Status", "type":"lookup", "staticValues":"despatchStatusTypes","html":"<a class=\"badge-status status-{despatchStatus.toLowerCase()} \" href=\"javascript:popupCenter('#/despatch/outbox/status/{_id}?view=plain','İşlem Durumları','900','600')\">{valueText}</a>"},
-				"localStatus"	:{"title":"İşlem",  "type":"lookup", "staticValues":"localStatusTypes", "html":"<a class=\"badge-status status-{localStatus} \" href=\"javascript:popupCenter('#/despatch/outbox/status/{_id}?view=plain','İşlem Durumları','900','600')\">{valueText}</a>"},
-				"receiptAdvice.receiptStatus"	:{"title":"Teslim", "type":"lookup", "staticValues":"receiptStatusTypes"}
+				"receiptAdvice.receiptStatus"	:{"title":"Teslim", "type":"lookup", "staticValues":"receiptStatusTypes"},
+				"localStatus"	:{"title":"İşlem",  "type":"lookup", "staticValues":"localStatusTypes", "html":"<a class=\"badge-status status-{localStatus} \" href=\"javascript:popupCenter('#/despatch/outbox/status/{_id}?view=plain','İşlem Durumları','900','600')\">{valueText}</a>"}
 			},
 			"options": {
 				"selection": true,
@@ -55,6 +55,7 @@
 		{
 			"type":"form",
 			"fields" :{
+				"ioType":{"type":"hidden","value":1},
 				"baslik":{
 					"title":"Belge Bilgileri",
 					"fields":{
@@ -301,13 +302,14 @@
 			"despatchErrors":{
 				"type":"grid",
 				"title":"Hatalar",
+				"collapsed":false,
 				"fields":{
 					"_date":{"title":"Tarih Saat", "type":"datetime"},
 					"code":{"title":"Kod", "type":"string"},
 					"message":{"title":"Açıklama", "type":"string"}
 				}
 			},
-			"islem":{"title":"İşlem","type":"group","collapsed":true,
+			"islem":{"title":"İşlem","type":"group","collapsed":false,
 				"fields":{
 					"localStatus" :{"title":"İşlem Durum","type":"string","readonly":true},
 					"localErrors":{

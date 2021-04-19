@@ -33,7 +33,7 @@
 			"dataSource": {
 				"type":"remote",
 				"method":"GET",
-				"url":"/dbapi/order/outbox",
+				"url":"/dbapi/order/inbox",
 				"deleteUrl":"/dbapi/order",
 				"copyUrl":"/dbapi/order/copy",
 				"printUrl":"/dbapi/order/print"
@@ -44,7 +44,7 @@
 		{
 			"type":"form",
 			"fields" :{
-				"ioType":{"type":"hidden","value":0},
+				"ioType":{"type":"hidden","value":1},
 				"baslik":{
 					"title":"Belge Bilgileri",
 					"fields":{
@@ -69,54 +69,54 @@
 				},
 				
 				"cari":{
-					"title":"Müşteri Bilgileri",
+					"title":"Tedarikçi Bilgileri",
 					"collapsed":false,
 					"fields":{
-						"buyerCustomerParty.party._id":{"title":"Şirket/Firma", "type":"remoteLookup", "col":6,
+						"sellerSupplierParty.party._id":{"title":"Şirket/Firma", "type":"remoteLookup", "col":6,
 							"dataSource":{
 								"type":"remote",
 								"method":"GET",
-								"url":"/dbapi/customers",
+								"url":"/dbapi/vendors",
 								"label":"{partyName.name.value}"
 							},
-							"lookupTextField":"buyerCustomerParty.party.partyName.name.value",
-							"onchange":"cariKart_changed('buyerCustomerParty')"
+							"lookupTextField":"sellerSupplierParty.party.partyName.name.value",
+							"onchange":"cariKart_changed('sellerSupplierParty')"
 						},
-						"buyerCustomerParty.party.person.firstName.value":{"title":"Kişi Adı", "type":"string", "col":3},
-						"buyerCustomerParty.party.person.familyName.value":{"title":"Kişi Soyadı", "type":"string", "col":3},
-						"buyerCustomerParty.party.partyIdentification.0.ID.value":{"title":"Vergi No/Tckn", "type":"string", "col":4},
-						"buyerCustomerParty.party.partyIdentification.0.ID.attr.schemeID":{"title":"Tür", "type":"lookup", "lookup":{"VKN":"VKN","TCKN":"TCKN"}, "col":4},
-						"buyerCustomerParty.party.partyTaxScheme.taxScheme.name.value":{"title":"Vergi Dairesi", "type":"string", "col":4 , "calc":"3*{buyerCustomerParty.party.person.firstName.value}"},
+						"sellerSupplierParty.party.person.firstName.value":{"title":"Kişi Adı", "type":"string", "col":3},
+						"sellerSupplierParty.party.person.familyName.value":{"title":"Kişi Soyadı", "type":"string", "col":3},
+						"sellerSupplierParty.party.partyIdentification.0.ID.value":{"title":"Vergi No/Tckn", "type":"string", "col":4},
+						"sellerSupplierParty.party.partyIdentification.0.ID.attr.schemeID":{"title":"Tür", "type":"lookup", "lookup":{"VKN":"VKN","TCKN":"TCKN"}, "col":4},
+						"sellerSupplierParty.party.partyTaxScheme.taxScheme.name.value":{"title":"Vergi Dairesi", "type":"string", "col":4 , "calc":"3*{sellerSupplierParty.party.person.firstName.value}"},
 						"adresBilgileri":{
 							"title":"Adres bilgisi",
 							"collapsed":true,
 							"fields":{
-								"buyerCustomerParty.party.postalAddress.streetName.value":{"title":"Cadde/Sokak", "type":"string", "col":4},
-								"buyerCustomerParty.party.postalAddress.buildingNumber.value":{"title":"Cadde Sokak Kapı No", "type":"string", "col":2},
-								"buyerCustomerParty.party.postalAddress.buildingName.value":{"title":"Bina/Site adı", "type":"string", "col":2},
-								"buyerCustomerParty.party.postalAddress.blockName.value":{"title":"Blok adı", "type":"string", "col":2},
-								"buyerCustomerParty.party.postalAddress.room.value":{"title":"Daire", "type":"string", "col":2},
-								"buyerCustomerParty.party.postalAddress.citySubdivisionName.value":{"title":"Mahalle/Semt", "type":"string","col":3},
-								"buyerCustomerParty.party.postalAddress.district.value":{"title":"İlçe", "type":"string","col":3},
-								"buyerCustomerParty.party.postalAddress.cityName.value":{"title":"Şehir", "type":"string","col":3},
-								"buyerCustomerParty.party.postalAddress.region.value":{"title":"Bölge", "type":"string","col":3},
-								"buyerCustomerParty.party.postalAddress.country.identificationCode.value":{
+								"sellerSupplierParty.party.postalAddress.streetName.value":{"title":"Cadde/Sokak", "type":"string", "col":4},
+								"sellerSupplierParty.party.postalAddress.buildingNumber.value":{"title":"Cadde Sokak Kapı No", "type":"string", "col":2},
+								"sellerSupplierParty.party.postalAddress.buildingName.value":{"title":"Bina/Site adı", "type":"string", "col":2},
+								"sellerSupplierParty.party.postalAddress.blockName.value":{"title":"Blok adı", "type":"string", "col":2},
+								"sellerSupplierParty.party.postalAddress.room.value":{"title":"Daire", "type":"string", "col":2},
+								"sellerSupplierParty.party.postalAddress.citySubdivisionName.value":{"title":"Mahalle/Semt", "type":"string","col":3},
+								"sellerSupplierParty.party.postalAddress.district.value":{"title":"İlçe", "type":"string","col":3},
+								"sellerSupplierParty.party.postalAddress.cityName.value":{"title":"Şehir", "type":"string","col":3},
+								"sellerSupplierParty.party.postalAddress.region.value":{"title":"Bölge", "type":"string","col":3},
+								"sellerSupplierParty.party.postalAddress.country.identificationCode.value":{
 									"title":"Ülke Kodu", "type":"lookup", "staticValues":"countryList","col":2,
-									"lookupTextField":"buyerCustomerParty.party.postalAddress.country.name.value",
-									"onchange":"countryCode_changed('buyerCustomerParty.party.')"
+									"lookupTextField":"sellerSupplierParty.party.postalAddress.country.name.value",
+									"onchange":"countryCode_changed('sellerSupplierParty.party.')"
 								},
 								
-								"buyerCustomerParty.party.postalAddress.postbox.value":{"title":"Posta Kodu", "type":"string","col":2}
+								"sellerSupplierParty.party.postalAddress.postbox.value":{"title":"Posta Kodu", "type":"string","col":2}
 							}
 						},
 						"iletisim":{
 							"title":"İletişim",
 							"collapsed":true,
 							"fields":{
-								"buyerCustomerParty.party.contact.telephone.value":{"title":"Telefon", "type":"string","col":2},
-								"buyerCustomerParty.party.contact.telefax.value":{"title":"Fax", "type":"string","col":2},
-								"buyerCustomerParty.party.contact.electronicMail.value":{"title":"E-Mail", "type":"string","col":4},
-								"buyerCustomerParty.party.websiteURI.value":{"title":"Web sitesi", "type":"string","col":4}
+								"sellerSupplierParty.party.contact.telephone.value":{"title":"Telefon", "type":"string","col":2},
+								"sellerSupplierParty.party.contact.telefax.value":{"title":"Fax", "type":"string","col":2},
+								"sellerSupplierParty.party.contact.electronicMail.value":{"title":"E-Mail", "type":"string","col":4},
+								"sellerSupplierParty.party.websiteURI.value":{"title":"Web sitesi", "type":"string","col":4}
 							}
 						}
 					}

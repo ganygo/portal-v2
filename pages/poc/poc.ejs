@@ -1,14 +1,18 @@
 <% layout('../_common/layouts/general') %>
-<script type="text/javascript" src="<%- assetVersion('/js/helper.js') %>"></script>
-<script type="text/javascript" src="<%- assetVersion('/js/haham.js') %>"></script>
+<script type="text/javascript" src="<%- assetVersion('/js/poc-helper.js') %>"></script>
+<script type="text/javascript" src="<%- assetVersion('/js/poc-form-elements.js') %>"></script>
+<script type="text/javascript" src="<%- assetVersion('/js/poc-grid-elements.js') %>"></script>
+
+<script type="text/javascript" src="<%- assetVersion('/js/poc.js') %>"></script>
 
 <style type="text/css">
 	
 </style>
-<div id="mainCtrl" class="px-0"></div>
 
+<div id="mainCtrl" class="px-0">
+	<form></form>
+</div>
 <script type="text/javascript">
-	
 
 	function sayfaBul(){
 		document.title=hashObj.title + ' - ganygo'
@@ -50,15 +54,14 @@
 		toggleMenu()
 		var sayfa=sayfaBul()
 		if(sayfa){
-
-			frm.build(sayfa,'mainCtrl')
+			generatePage('#mainCtrl form',sayfa)
+			// frm.build(sayfa,'mainCtrl')
+			// $('#mainCtrl').html(JSON.stringify(sayfa))
 		}else{
-			$('#mainCtrl').html('sayfa bulunamadi')
+			$('#mainCtrl form').html('sayfa bulunamadi')
 		}
 	}
 	
-	
-	var frm=FormControl.FormControl
 
 	if(window.location.hash==''){
 		window.location.hash=='/dashboard/main'
@@ -74,7 +77,7 @@
 			hashObj=getHashObject()
 			anotherViewStyle('mainCtrl')
 
-			$('#mainCtrl').html('loading...')
+			$('#mainCtrl form').html('loading...')
 			sayfayiAcalim()
 
 		}

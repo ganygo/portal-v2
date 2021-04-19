@@ -5,8 +5,8 @@
 			"type":"filter",
 			"fields" :{
 				"tarih" :{"title":"Tarih", "type":"dateRange"},
-				"profileId.value" :{"title":"Senaryo","type":"lookup", "staticValues":"despatchProfileIdList","col":3},
-				"despatchAdviceTypeCode.value" :{"title":"Tipi","type":"lookup", "staticValues":"despatchAdviceTypeCodeList","col":3}
+				"profileId.value" :{"title":"Senaryo","type":"lookup", "staticValues":"despatchProfileIdList","col":2},
+				"despatchAdviceTypeCode.value" :{"title":"Tipi","type":"lookup", "staticValues":"despatchAdviceTypeCodeList","col":2}
 			}
 		},
 		{
@@ -14,11 +14,11 @@
 			"fields": {
 				"ID"				:{"title":"ID",  "type":"string", "visible":false},
 				"despatchNo"				:{"title":"Irs. No",  "type":"string","html":"<b>{ID}</b><br>{localDocumentId}" ,"width":"130px"},
-				"tarih"	:{"title":"Tarih",  "type":"string","html":"{issueDate}<br><small class=\"text-primary\">{issueTime}</small>"},
+				"tarih"	:{"title":"Tarih",  "type":"string","html":"{issueDate}<br><small class=\"text-primary\">{issueTime}</small>", "filter":false},
 				"musteri"	:{"title":"Müşteri", "type":"string", "filterField":"partyName", "html":"<b>{party.title}</b><br><small class=\"text-primary\">{party.vknTckn}</small> | Satır:{lineCountNumeric}"},
 				"despatchStatus"	:{"title":"GİB Status", "type":"lookup", "staticValues":"despatchStatusTypes","html":"<span class=\"badge badge-status status-{despatchStatus.toLowerCase()} \"><a href=\"javascript:popupCenter('#/despatch/outbox/status/{_id}?view=plain','Log Kayıtları','900','600')\">{valueText}</a></span>"},
-				"localStatus"	:{"title":"İşlem", "type":"lookup", "staticValues":"localStatusTypes","html":"<span class=\"badge badge-status status-{localStatus.toLowerCase()} \"><a href=\"javascript:popupCenter('#/despatch/outbox/status/{_id}?view=plain','Log Kayıtları','900','600')\">{valueText}</a></span>"},
-				"receiptAdvice.receiptStatus"	:{"title":"Teslim", "type":"lookup", "staticValues":"receiptStatusTypes"}
+				"receiptAdvice.receiptStatus"	:{"title":"Teslim", "type":"lookup", "staticValues":"receiptStatusTypes"},
+				"localStatus"	:{"title":"İşlem", "type":"lookup", "staticValues":"localStatusTypes","html":"<span class=\"badge badge-status status-{localStatus.toLowerCase()} \"><a href=\"javascript:popupCenter('#/despatch/outbox/status/{_id}?view=plain','Log Kayıtları','900','600')\">{valueText}</a></span>"}
 			},
 			"options": {
 				"selection": true,
@@ -55,6 +55,7 @@
 		{
 			"type":"form",
 			"fields" :{
+				"ioType":{"type":"hidden","value":0},
 				"baslik":{
 					"title":"Belge Bilgileri",
 					"fields":{
@@ -167,12 +168,10 @@
 							"required":true
 						},
 						"deliveredQuantity.value" :{"title":"Miktar", "type":"number","required":true},
-						"deliveredQuantity.attr.unitCode" :{"title":"Birim", "type":"lookup","staticValues":"unitCodeList","required":true},
+						"deliveredQuantity.attr.unitCode" :{"title":"Birim", "type":"lookup","staticValues":"unitCodeList","required":true,"lastRecord":true},
 						"note.0.value" :{"title":"SatırNot 1", "type":"string"},
 						"note.1.value" :{"title":"SatırNot 2", "type":"string"},
-						"note.2.value" :{"title":"SatırNot 3", "type":"string"},
-						"note.3.value" :{"title":"SatırNot 4", "type":"string","visible":false},
-						"note.4.value" :{"title":"SatırNot 5", "type":"string","visible":false}
+						"note.2.value" :{"title":"SatırNot 3", "type":"string"}
 					},
 					"modal":{
 						"tabs":[
@@ -225,7 +224,7 @@
 					"options": {
 						"selection": false,
 						"filter": false,
-						"confirmBeforeRemove":false,
+						"confirmBeforeRemove":true,
 						"buttons": {
 							"add": true,
 							"edit": true,

@@ -1,17 +1,17 @@
 <% layout('plain') %>
-<nav class="navbar navbar-dark bg-dark navtop">
+<nav class="navbar navbar-dark bg-dark navtop d-flex">
 	<a id="menuCollapseButton" class="btn btn-sm border ms-3 me-3" href="javascript:toggleMenu('show')" title="Menü göster/gizle"><i class="fas fa-bars"></i></a>
 	<a href="/haham#/dashboard/main" class="logo ms-1">
 		<span class="text-secondary bold">Gany<span class="text-primary">Go</span></span>
 	</a>
 
-	<div class="ms-auto me-0 me-md-3 my-2 my-md-0">
+	<div class="ms-auto me-0 me-md-3 my-2 my-md-0 d-none d-md-block">
 		<div class="input-group">
 			<input class="form-control" type="text" placeholder="ara..." aria-label="Search" aria-describedby="basic-addon2" />
 			<button class="btn border" type="button"><i class="fas fa-search"></i></button>
 		</div>
 	</div>
-	<a id="menuCollapseButton2" class="btn btn-sm border ms-3 me-2" href="javascript:toggleMenu('show')" title="Menü göster/gizle"><i class="fas fa-bars"></i></a>
+	
 	<div class="ms-auto ms-md-0">
 		<ul class="nav">
 			<li class="nav-item dropdown" id="alertsDropdown">
@@ -19,7 +19,7 @@
 					<i class="fas fa-bell fa-fw font-size-150"></i>
 					<span id="unread-notification-count" class="badge badge-danger badge-counter"></span>
 				</a>
-				<div class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="alertsDropdownBtn">
+				<div class="dropdown-menu dropdown-menu-md-end bg-dark" aria-labelledby="alertsDropdownBtn">
 					<h6 class="dropdown-header text-light">
 						Bildirim Merkezi
 					</h6>
@@ -59,32 +59,28 @@
 			</li>
 		</ul>
 	</div>
+	<a id="menuCollapseButton2" class="btn btn-sm border ms-3 me-2" href="javascript:toggleMenu('show')" title="Menü göster/gizle"><i class="fas fa-bars"></i></a>
 </nav>
 
-<div class="d-flex">
+<div class="d-flex position-relative">
 	<div id="layoutSidenav_nav" class="bg-dark collapse show" style="">
 		<%- partial('side-menu') %>
 	</div>
 	<div id="main-content"  class="p-2">
-		<main id="main-container" class="cerceve1 p-0" style="margin-bottom: -30px;padding-bottom: 80px!important;">
-			<div id="title-panel" class="mt-2 mb-1 px-3" style="height: 36px">
-				<h1 id="pageTitle" class="float-start m-0 page-title text-primary" style="font-size:16pt">...</h1>
-				<div id="headerButtons" class="float-end" style="min-height: 26px;"></div>
+		<main id="main-container" class="">
+			<div id="title-panel" class="d-flex justify-content-between mt-0 mb-0 px-3 pt-2">
+				<h1 id="pageTitle" class="m-0 page-title">...</h1>
+				<div id="headerButtons" class="d-flex"></div>
 			</div>
-			<!-- <div class="clearfix"></div> -->
 			<div class="container-fluid">
-
 				<%- body %>
 
 			</div>
-
 		</main>
-		<%- partial('footer') %>
 		
+		<%- partial('footer') %>
 	</div>
-
 </div>
-
 
 <a class="scroll-to-top rounded" href="javascript:scrollToTop()">
 	<i class="fas fa-angle-up"></i>

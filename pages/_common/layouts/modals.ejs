@@ -4,9 +4,7 @@
 		<div class="modal-content">
 			<div class="modal-header p-2 ">
 				<label class="modal-title" id="modalFormOptionsLabel"><i class="fas fa-cogs"></i> Form Options</label>
-				<button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body p-2" style="overflow: auto;">
 				<table class="table form-table table-bordered table-striped m-0"  cellspacing="0">
@@ -35,9 +33,7 @@
 		<div class="modal-content">
 			<div id="modalMessageHeader" class="modal-header p-2 ">
 				<label class="modal-title" id="modalMessageLabel"></label>
-				<button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body p-2" style="overflow: auto;">
 				
@@ -60,7 +56,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button id="modalConfirmOk" class="btn btn-primary" type="button" data-bs-dismiss="modal">Tamam</button>
+				<button id="modalConfirmOk" class="btn btn-primary" type="button">Tamam</button>
 				<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Vazgeç</button>
 			</div>
 		</div>
@@ -72,9 +68,7 @@
 		<div class="modal-content">
 			<div id="modalCopyHeader" class="modal-header p-2 ">
 				<label class="modal-title"><i class="fas fa-copy"></i> <span id="modalCopyLabel"></span></label>
-				<button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body" style="overflow: auto;">
 				
@@ -87,3 +81,25 @@
 	</div>
 </div>
 
+
+<div class="modal" id="modalRow" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-labelledby="modalRowLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<form>
+			<div id="modalRowHeader" class="modal-header p-2 ">
+				<label class="modal-title"></label>
+				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			
+			<div class="modal-body p-1" style="overflow: auto;">
+				
+			</div>
+
+			<div class="modal-footer">
+				<a href="javascript:modalRowOk()" id="modalRowOk" class="btn btn-primary">Tamam</a>
+				<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>

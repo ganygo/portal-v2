@@ -2,13 +2,18 @@
 	"index":
 	[
 		{
-			"title":"",
-			"text":"Ayarlari yeniden yukle",
-			"type":"button",
-			"href":"/changedb",
-			"class":"btn btn-primary",
-			"icon":"fas fa-sync-alt",
-			"col":"col-md-6"
+			"type":"form",
+			"fields":{
+				"button1":{
+					"title":"",
+					"text":"Ayarlari yeniden yukle",
+					"type":"button",
+					"href":"/changedb",
+					"class":"btn btn-primary",
+					"icon":"fas fa-sync-alt",
+					"col":"col-md-6"
+				}
+			}
 		},
 		{
 			"type": "grid",

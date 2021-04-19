@@ -5,6 +5,7 @@ body {
 	font-family: var(--bs-font-sans-serif);
 	overflow-y: scroll;
 	font-size: 0.875rem;
+	// position:relative;
 }
 
 body a {
@@ -41,6 +42,7 @@ input, button, select, label, textarea {
 	background: rgba($orange, 0.7);
 
 	line-height: 46px;
+	z-index: 99;
 
 }
 .scroll-to-top:hover {
@@ -281,6 +283,7 @@ input, button, select, label, textarea {
 }
 .navtop {
 	border-bottom: #383838 solid 1px;
+
 }
 
 #main-content {
@@ -358,15 +361,21 @@ input, button, select, label, textarea {
 	font-size: 1.1rem;
 	border-radius: 0.3rem;
 }
-
-#dbLabel {
-	display: inherit;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	width: 140px;
-	max-width: 250px;
+@media(max-width: 768px){
+	.btn-form-header {
+		padding:  0.2rem 0.6rem;
+		font-size: 1.0rem;
+		border-radius: 0.2rem;
+	}
 }
+// #dbLabel {
+// 	display: inherit;
+// 	text-overflow: ellipsis;
+// 	white-space: nowrap;
+// 	overflow: hidden;
+// 	width: 140px;
+// 	max-width: 250px;
+// }
 
 // @media (max-width: 768px){
 // 	#dbLabel {
@@ -562,6 +571,34 @@ input, button, select, label, textarea {
 	background-color: #55859f;
 }
 
+.navtop .nav-item .nav-link .badge-counter {
+	position: absolute;
+	// transform: scale(0.9);
+	transform-origin: top right;
+	right: 1.4rem;
+	margin-top: -.45rem;
+	background-color: var(--bs-red);
+	padding-left: 0.2rem;
+	padding-right: 0.3rem;
+}
+
+.icon-circle {
+	height: 2.5rem;
+	width: 2.5rem;
+	border-radius: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.rounded-circle {
+	border-radius: 50%!important;
+}
+
+img {
+	vertical-align: middle;
+	border-style: none;
+}
 
 .bold {
 	font-weight: bold;
@@ -573,7 +610,13 @@ input, button, select, label, textarea {
 }
 
 .page-title {
-	font-size: 14pt;
+	font-size: 16pt;
+	color:var(--bs-primary);
+}
+@media(max-width: 768px){
+	.page-title {
+		font-size: 12pt;
+	}
 }
 
 .btn-light{
@@ -789,12 +832,10 @@ input, button, select, label, textarea {
 	z-index: 0;
 }
 
-.btn-info {
+.btn-info, .btn-info:hover, .btn-info:focus {
 	color: #fff;
 }
-.btn-info:hover {
-	color: #fff;
-}
+
 
 .input-group button {
 	height:28px;
@@ -822,8 +863,86 @@ input, button, select, label, textarea {
 	opacity: 0.6;
 }
 
+.text-orange {
+	color:var(--bs-orange);
+}
+
+.button-bar {
+	background-color: #f8f9fa;
+	border-radius: 0.25rem !important;
+	border: 1px solid #dee2e6 !important;
+}
+
+.table {
+}
+
+.table thead th {
+	padding: 0.25rem;
+	vertical-align: middle;
+}
+
+.table th, .table td {
+	padding: 0.25rem;
+	vertical-align: middle;
+	border-top: none;
+}
+
+@media(min-width: 768px){
+	.table-striped tbody tr:hover {
+		// background-color: var(--bs-orange);
+		background-color: #fd7e14a1;
+	}
+}
+
+.form-table thead th {
+	padding: 0.25rem;
+	vertical-align: middle;
+	border-bottom: 2px solid #e3e6f0;
+	font-size: 11pt;
+}
+
+td {
+	max-height: 35px !important;
+	height: 35px !important;
+}
+
+.loader {
+	position: relative;
+	top: 30vh;
+	left: 50%;
+	border: 8px solid var(--bs-orange);
+	border-radius: 50%;
+	border-top: 8px solid var(--bs-primary);
+	width: 40px;
+	height: 40px;
+	-webkit-animation: spin 2s linear infinite;
+	animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+
+
 #layoutSidenav_nav {
 	font-family: 'Roboto', 'Noto', sans-serif;
+	width: fit-content;
+}
+
+@media (max-width: 768px){
+	#layoutSidenav_nav {
+		position: absolute;
+		z-index: 1;
+		right: 0px;
+		font-size: 125%;
+	}
 }
 #layoutSidenav_nav i {
 	color:#909090;
@@ -833,9 +952,20 @@ input, button, select, label, textarea {
 	margin-right: 0rem;
 }
 
-
-.text-orange {
-	color:var(--bs-orange);
+#main-container {
+	border: 1px solid #d9dbe4;
+	border-radius: 5px;
+	box-shadow: 1px 1px 4px #00000026;
+	padding:0;
+	min-height: 85vh;
+	margin-bottom: 3vh;
+}
+@media (max-width: 768px){
+	#main-container {
+		padding:0;
+		margin-bottom: -30px;
+		padding-bottom: 20px!important;
+	}
 }
 
 @media (min-width: 768px){
@@ -854,4 +984,29 @@ input, button, select, label, textarea {
 	#menuCollapseButton2 {
 		display: initial;
 	}
+}
+
+#sidenavAccordion {
+	width: 240px;
+}
+
+#sidenavAccordion .nav-link {
+	color:var(--bs-light);
+	width: 100%;
+}
+#sidenavAccordion .nav-link .nav.accordion .nav-link{
+	color:var(--bs-light);
+	opacity: 50%!important;
+}
+
+@media(max-width: 768px){
+	.nav-link{
+		padding: 0.5rem 0.5rem;
+	}
+}
+
+.ellipsis {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
