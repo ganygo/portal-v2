@@ -131,10 +131,13 @@ function poc_Button(parentId, item,cb){
 }
 
 function poc_TextareaBox(parentId, item,cb){
+
 	let s=`
 	<textarea class="form-control text-nowrap ${item.class || ''}" style="font-family: courier new"  id="${item.id}-textarea" rows="${item.rows || 4}"  placeholder="${item.placeholder || item.title || item.label}" ${item.required?'required="required"':''} ${item.readonly==true?'readonly':''} onchange="${item.onchange || ''}" autocorrect="off" spellcheck="false"></textarea>
 	<input type="hidden" id="${item.id}" name="${item.name}" >
 	`
+
+	s=poc_Group(s,item)
 	document.querySelector(parentId).insertAdjacentHTML('beforeend', s)
 	
 	let textAreaValue=item.value!=undefined?item.value:''

@@ -3,8 +3,7 @@
 		{
 			"type": "grid",
 			"fields": {
-				"name":{"title":"Adı", "type":"string"},
-				"parameters":{"title":"Parametreler(JSON format)", "type":"json"}
+				"name":{"title":"Adı", "type":"string"}
 			},
 			"options": {
 				"selection": true,
@@ -15,7 +14,7 @@
 					"delete": true,
 					"view": false,
 					"print": false,
-					"copy": false
+					"copy": true
 				}
 			},
 			"dataSource": {

@@ -6,6 +6,9 @@
 			"fields": {
 				"name.value"				:{"title":"Adı",  "type":"string"},
 				"description.value"	:{"title":"Açıklama",  "type":"string"},
+				"unitCode"	:{"title":"Birim",  "type":"lookup", "staticValues":"unitCodeList"},
+				"unitCode2"	:{"title":"Birim2",  "type":"lookup", "staticValues":"unitCodeList"},
+				"unitCode3"	:{"title":"Birim3",  "type":"lookup", "staticValues":"unitCodeList"},
 				"tracking.lotNo"		:{"title":"Lot No?", "type":"boolean"},
 				"tracking.serialNo"	:{"title":"Seri No?", "type":"boolean"},
 				"tracking.color" 		:{"title":"Renk?", "type":"boolean"},
@@ -50,6 +53,10 @@
 						"controls":{
 							"name.value":{"title":"Adı", "type":"string", "col":4   , "required":true},
 							"description.value":{"title":"Açıklama", "type":"string", "col":8 },
+							"divsor1" :{"type":"w-100"},
+							"unitCode"	:{"title":"Birim",  "type":"lookup", "staticValues":"unitCodeList", "col":2, "value":"NIU"},
+							"unitCode2"	:{"title":"Birim2",  "type":"lookup", "staticValues":"unitCodeList", "col":2},
+							"unitCode3"	:{"title":"Birim3",  "type":"lookup", "staticValues":"unitCodeList", "col":2},
 							"tags":{"title":"Etiketler (virgulle ayrılmış)", "type":"string"},
 
 							"grup1":{

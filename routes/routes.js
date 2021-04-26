@@ -17,8 +17,8 @@ module.exports = function(app){
 
 	app.all('/', function(req, res) {
 		if(req.session.elvanDalton){
-			// res.redirect('/haham#/dashboard/main')
-			res.redirect('/poc#/despatch/outbox?mid=1.2')
+			res.redirect('/poc#/dashboard/main?mid=0')
+			// res.redirect('/poc#/inventory/inventory-fiches?mid=4.2')
 		}else{
 
 			res.redirect('/login')

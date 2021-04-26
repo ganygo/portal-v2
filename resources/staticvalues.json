@@ -160,15 +160,15 @@
 		"Error": "Hata"
 	},
 	"inventoryFicheTypeCodeList": {
-		"TRANSFER": "Transfer",
-		"GIRIS": "Giriş",
-		"CIKIS": "Çıkış",
+		"TRANSFER": "Transfer(-/+)",
+		"GIRIS": "Giriş(+)",
+		"CIKIS": "Çıkış(-)",
 		"SAYIMFAZLASI": "Sayım Fazlası(-)",
 		"SAYIMEKSIGI": "Sayım Eksiği(+)",
-		"SARF": "Sarf",
-		"URETIMECIKIS": "Üretime Çıkış",
-		"URETIMDENGIRIS": "Üretimden Giriş",
-		"SAYIM": "Sayım"
+		"SARF": "Sarf(-)",
+		"URETIMECIKIS": "Üretime Çıkış(-)",
+		"URETIMDENGIRIS": "Üretimden Giriş(+)",
+		"SAYIM": "Sayım(-/+)"
 	},
 	"xsltFileTypes": {
 		"xslt": ".xslt",

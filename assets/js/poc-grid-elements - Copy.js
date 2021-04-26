@@ -1153,7 +1153,7 @@ function ilkElemanaFocuslan(selector){
 
 
 function gridDeleteItem(rowIndex,tableId){
-	var table=document.querySelector(tableId)
+	var table=document.getElementById(tableId)
 	var item=table.item
 	if(!item.dataSource)
 		return
@@ -1172,7 +1172,7 @@ function gridDeleteItem(rowIndex,tableId){
 		return
 
 
-	var soru=`Belge/Kayıt silinecektir! Onaylıyor musunuz?`
+	var soru=`Belge/Nesne silinecektir! Onaylıyor musunuz?`
 	var i=0
 	soru+=`<br><hr class="hr-primary">`
 	while(i<row.cells.length && i<4){

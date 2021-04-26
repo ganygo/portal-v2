@@ -4,7 +4,7 @@
 			<div class="text-muted ms-2">
 				<a href="javascript:modalFormOptions();" class="btn btn-sm btn-info " title="Form Ayarları"	style="font-size: 11px!important; height: 22px; padding: 2px;"><i class="fas fa-cogs"></i> Form Ayarları</a>
 			</div>
-			<div class="text-muted mt-1 mx-3">&copy; <%- (new Date()).getFullYear() %> Gani Teknoloji</div>
+			<div class="text-muted mt-1 mx-3">&copy; <%- (new Date()).getFullYear() %> Gani Teknoloji <span id="innerWidth" class="ms-2 text-dark bold"></span></div>
 		</div>
 		<div class="d-flex text-primary mt-1 ms-2 justify-content-between">
 			<div class="" title="Aktif kullanıcı">
@@ -16,3 +16,6 @@
 		</div>
 	</div>
 </footer>
+<script type="text/javascript">
+	document.querySelector('#innerWidth').innerHTML=`${window.innerWidth}px x ${window.innerHeight}px`
+</script>

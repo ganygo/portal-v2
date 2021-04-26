@@ -333,7 +333,7 @@ input, button, select, label, textarea {
 }
 
 .form-control {
-	height: 28px;
+	// height: 28px;
 	padding: 0.05rem 0.25rem;
 	font-size: 0.875rem;
 }
@@ -1009,4 +1009,9 @@ td {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+#title-panel {
+	height: 50px;
+	background-color: #f7f7ff;
 }
