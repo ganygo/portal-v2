@@ -7495,8 +7495,11 @@ input, button, select, label, textarea {
   font-family: var(--bs-font-sans-serif); }
 
 .logo {
-  text-decoration: none;
-  font-size: 18pt; }
+  max-width: 140px; }
+
+@media (max-width: 768px) {
+  .logo {
+    max-width: 110px; } }
 
 .beta {
   font-size: 30%;
@@ -8262,7 +8265,7 @@ td {
   border-radius: 5px;
   box-shadow: 1px 1px 4px #00000026;
   padding: 0;
-  min-height: 85vh;
+  min-height: 84.2vh;
   margin-bottom: 3vh; }
 
 @media (max-width: 768px) {
@@ -8306,3 +8309,26 @@ td {
 #title-panel {
   height: 50px;
   background-color: #f7f7ff; }
+
+textarea.form-control {
+  height: auto; }
+
+.form-control {
+  appearance: auto; }
+
+.form-switch {
+  padding-left: 3rem; }
+
+.imageBox-img {
+  width: 100%;
+  object-fit: contain; }
+
+.btn-image-edit {
+  position: absolute;
+  z-index: 1;
+  top: 2rem;
+  left: 1.5rem;
+  opacity: 0.7; }
+
+.font-size-150 {
+  font-size: 150%; }

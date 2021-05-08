@@ -179,14 +179,14 @@ function getPageInfos(h=null){
 function getModulePageName(){
 	var pageName='page'
 	var dizi=hashObj.path.split('/')
-	var c=0
+	var k=0
 	dizi.forEach((e)=>{
 		if(e!=''){
-			if(c==2){
+			if(k==2){
 				return
 			}else{
 				pageName+='_' + e
-				c++
+				k++
 			}
 		}
 	})
@@ -703,109 +703,6 @@ function getRemoteData(item,cb){
 
 }
 
-function silinecek___getRemoteData_eski(item,cb){
-	
-	var data={
-		value:item.value || ''
-	}
-	if(item.value==undefined){
-		switch(item.type){
-			case 'grid':
-			data.value=[]
-			break
-			case 'form':
-			data.value={}
-			break
-			case 'filter':
-			data.value={}
-			break
-
-			case 'number':
-			case 'money':
-			data.value=0
-			break
-
-			default:
-			data.value=''
-			break
-		}
-	}
-
-	if(item.dataSource==undefined){
-		return cb(null,data)
-	}
-
-	var url=''
-	if(hashObj.func=='print'){
-		url=item.dataSource.printUrl || item.dataSource.url
-	}else{
-		url=item.dataSource.url
-	}
-
-	var bHashParamsEkle=false
-	if(hashObj.func=='addnew'){
-		return cb(null,item)
-	}else{
-		if(hashObj.id){
-			url=`${url.split('?')[0]}/${hashObj.id}`
-			if(url.split('?')[1]){
-				url+='?' + url.split('?')[1]
-			}
-		}
-	}
-	var filterString=''
-	Object.keys(hashObj.query).forEach((key)=>{
-		if(key!='mid'){
-			if(filterString!='')
-				filterString+='&'
-			filterString+=`${key}=${encodeURIComponent2(hashObj.query[key])}`
-		}
-	})
-	if(filterString!=''){
-		url+=`${url.indexOf('?')>-1?'&':'?'}${filterString}`
-	}
-	
-	$.ajax({
-		url:url,
-		type:item.dataSource.method || 'GET',
-		dataType: 'json',
-		success: function(result) {
-			
-			if(result.success==undefined){
-				data.value=result
-				if(Array.isArray(result)){
-					data.paging={
-						page:1,
-						pageCount:1,
-						pageSize:10,
-						recordCount:result.length
-					}
-				}
-				cb(null,data)
-			}else if(result.success){
-				if(result.data.docs){
-					data.value=result.data.docs
-					data.paging={
-						page:result.data.page,
-						pageCount:result.data.pageCount,
-						pageSize:result.data.pageSize,
-						recordCount:result.data.recordCount
-					}
-				}else{
-					data.value=result.data
-				}
-
-				cb(null,data)
-			}else{
-				cb(result.error)
-			}
-		},
-		error:function(err){
-			cb(err)
-		}
-	})
-
-}
 
 function cariKart_changed(prefix){
 	var fieldList=[

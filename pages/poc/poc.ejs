@@ -15,7 +15,7 @@
 <script type="text/javascript">
 
 	function sayfaBul(){
-		document.title=hashObj.title + ' - ganygo'
+		document.title=hashObj.title + ' - GanyGO'
 		$('#pageTitle').html(`<i class="${hashObj.icon}"></i> ${hashObj.breadCrumbsHtml}`)
 		var sayfa=getPropertyByKeyPath(global.pages,hashObj.pathKey)
 		if(!sayfa)
@@ -64,7 +64,7 @@
 	
 
 	if(window.location.hash==''){
-		window.location.hash=='/dashboard/main'
+		window.location.hash='/dashboard/main'
 		
 	}
 

@@ -58,8 +58,6 @@ module.exports = function(app){
 
 	app.all('/login', function(req, res) {
 		try{
-		
-
 			if(!req.query.auth){
 				var currentUrl=`${req.protocol}://${req.get('host')}${req.originalUrl}`
 				if(config.status=='release'){
@@ -390,7 +388,7 @@ var maxVersion=''
 
 
 function getStaticValues(callback){
-	var fileName=path.join(__dirname,'../resources/staticvalues.json')
+	var fileName=path.join(__root,'resources/static-values.json')
 	var stValues=require(fileName)
 	var stats = fs.statSync(fileName)
 	var fileVer=(new Date(stats.mtime)).yyyymmddhhmmss().replaceAll('-','').replaceAll(' ','').replaceAll(':','')

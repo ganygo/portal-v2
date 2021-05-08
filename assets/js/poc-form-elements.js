@@ -79,7 +79,7 @@ function poc_FormHtml(parentId, item,cb){
 		html=item.value
 	}
 	
-	var s= group(html,item)
+	var s= poc_Group(html,item)
 	
 	document.querySelector(parentId).insertAdjacentHTML('beforeend', s)
 	cb()
@@ -165,7 +165,7 @@ function poc_ImageBox(parentId, item,cb){
 	<label for="fileUpload_${item.id}" class="btn btn-primary btn-image-edit"><i class="fas fa-edit"></i></label>
 	<img id="${item.id}-img" class="imageBox-img" src="${item.value.data || '/img/placehold-place.jpg'}" download="${item.value.fileName || ''}">
 	</div>
-	<input type="file" id="fileUpload_${item.id}" style="visibility:hidden;" accept="" >
+	<input type="file" id="fileUpload_${item.id}" style="display:none;" accept="" >
 	<input type="hidden" name="${item.name}[data]" value="${item.value.data || ''}" >
 	<input type="hidden" name="${item.name}[type]" value="${item.value.type || ''}" >
 	<input type="hidden" name="${item.name}[fileName]" value="${item.value.fileName || ''}" >
@@ -205,7 +205,7 @@ function poc_FileBox(parentId, item,cb){
 	<label for="fileUpload_${item.id}" class="btn btn-primary"><i class="fas fa-file-alt"></i> Dosya seçiniz</label><br>
 	<a id="fileDownload_${item.id}" class="" href="${item.value.data || '#'}" download="${item.value.fileName || ''}">${item.value.fileName?'<i class="fas fa-file-download"></i> ' + item.value.fileName:''}</a>
 	</div>
-	<input type="file" id="fileUpload_${item.id}" style="visibility:hidden;" accept="" >
+	<input type="file" id="fileUpload_${item.id}" style="display:none;" accept="" >
 	<input type="hidden" name="${item.name}[data]" value="${item.value.data || ''}" >
 	<input type="hidden" name="${item.name}[type]" value="${item.value.type || ''}" >
 	<input type="hidden" name="${item.name}[fileName]" value="${item.value.fileName || ''}" >
@@ -243,13 +243,13 @@ function poc_FileBox(parentId, item,cb){
 
 
 function poc_NumberBox(parentId, item,cb){
-	let s=poc_Group(`<input type="number" class="form-control text-end ${item.class || ''}" id="${item.id}" name="${item.name}" placeholder="${item.placeholder || item.title || item.label}" ${item.required?'required="required"':''} ${item.readonly==true?'readonly':''} onchange="${item.onchange || ''}" autocomplete="off" autofill="off" spellcheck="false" value="${item.value!=undefined?item.value:0}">`,item)
+	let s=poc_Group(`<input type="number" class="form-control text-end ${item.class || ''} text-end" id="${item.id}" name="${item.name}" placeholder="${item.placeholder || item.title || item.label}" ${item.required?'required="required"':''} ${item.readonly==true?'readonly':''} onchange="${item.onchange || ''}" autocomplete="off" autofill="off" spellcheck="false" value="${item.value!=undefined?item.value:0}">`,item)
 	document.querySelector(parentId).insertAdjacentHTML('beforeend', s)
 	cb()
 }
 
 function poc_MoneyBox(parentId, item,cb){
-	let s=poc_Group(`<input type="number" class="form-control text-end ${item.class || ''}" id="${item.id}" name="${item.name}" placeholder="${item.placeholder || item.title || item.label}" ${item.required?'required="required"':''} ${item.readonly==true?'readonly':''} onchange="${item.onchange || ''}" autocomplete="off" autofill="off" spellcheck="false" value="${item.value!=undefined?item.value:0}">`,item)
+	let s=poc_Group(`<input type="number" class="form-control text-end ${item.class || ''} text-end" id="${item.id}" name="${item.name}" placeholder="${item.placeholder || item.title || item.label}" ${item.required?'required="required"':''} ${item.readonly==true?'readonly':''} onchange="${item.onchange || ''}" autocomplete="off" autofill="off" spellcheck="false" value="${item.value!=undefined?item.value:0}">`,item)
 	document.querySelector(parentId).insertAdjacentHTML('beforeend', s)
 	cb()
 }

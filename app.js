@@ -43,9 +43,9 @@ if(process.argv.length>=3){
 
 
 
-global.rootDir=__dirname
+global.__root=__dirname
 
-global.mrutil = require('./lib/mrutil.js')
+global.ggutil = require('./lib/ggutil.js')
 global.ttext = require('./lib/language.js')
 global.sessionHelper = require('./lib/session.helper.js')
 
@@ -62,7 +62,7 @@ var flash = require('connect-flash')
 
 
 app.engine('ejs', engine)
-// app.engine('ejs', hoca)
+
 app.set('views', path.join(__dirname, 'pages'))
 app.set('view engine', 'ejs')
 
@@ -137,8 +137,7 @@ app.use(function(err, req, res, next) {
 })
 
 
-
-global.staticValues=require('./resources/staticvalues.json')
+global.staticValues=require('./resources/static-values.json')
 
 staticValues['modules']=require('./resources/portal-modules.json')
 
